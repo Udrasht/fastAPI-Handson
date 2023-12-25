@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Path, Query,Form,File,UploadFile
+from fastapi import FastAPI, Path, Query,Form,File,UploadFile,HTTPException
 from enum import Enum
 from typing import Union
 from pydantic import BaseModel
@@ -86,3 +86,14 @@ async def uploded_file_size(file:bytes=File()):
 async def uploded_file_info(file:UploadFile):
     # print(file)
     return {"File Info": file}   # it wil return the information of file
+
+
+
+# fastAPI error handling
+items=["1","2","3","4","5"]
+@app.get("/error/hadling")
+async def handle_error(item: str):
+    if item not in items:
+        return HTTPException(status_code=400, detail="item is not equal to 2 try another value!!")
+    return {"value": item}
+
